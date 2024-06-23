@@ -1,66 +1,55 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Como Usar?
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+* Crie um Banco de dados que respeite os models e seus fillables, após isso configure o ```.env``` do projeto para linkar o Laravel ao seu Banco de dados.
 
-## About Laravel
+* Faça algumas querys de inserção de exemplo para testar o software na pratica
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Importante!
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* O Software NÃO possui interface, e NÃO está seguindo as melhores práticas do mundo, o objetivo é ser um MVP Básico de back-end para entender como uma gestão de vagas funciona brevemente, não está com a tabela Usuarios.
 
-## Learning Laravel
+# Tabelas do SQL Para funcionar
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```SQL
+CREATE TABLE Estacionamentos IF NOT EXISTS (
+    IDEstacionamento INT PRIMARY KEY AUTO_INCREMENT,
+    TargetName Varchar(99) NOT NULL,
+    QntVagas INT NOT NULL,
+    VagasReservadas INT DEFAULT 0
+);
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+CREATE TABLE Vagas IF NOT EXISTS (
+    IDVagaGeneral INT AUTO_INCREMENT PRIMARY KEY,
+    IDVagaSingle INT,
+    IDEstacionamento INT,
+    FirstName VARCHAR(24),
+    LastName VARCHAR(24),
+    HorarioEntrada TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    HorarioSaida TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    DataLog DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY (IDEstacionamento) REFERENCES Estacionamento(IDEstacionamento)
+);
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Testes:
 
-## Laravel Sponsors
+* A Primeira tela que você verá após abrir o software é essa, contendo algumas opções
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+![screen](./public/Images/route_main_with_no_search.png)
 
-### Premium Partners
+* E Essa é se você opta por buscar por algum estacionamento dentre os registrados no banco de dados
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+![screen](./public/Images/route_main_with_search.png)
 
-## Contributing
+* Essa é a tela para reservar, após entrar você verá o passo 1 da reserva
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+![screen](./public/Images/form_step_1.png)
 
-## Code of Conduct
+* Após escolher o estacionamento, você verá o real formulario, que no projeto real não terá varias informações que tem, já que no real, dados como nome e estacionamento desejado já vão estar linkados no usuario da pessoa, mas no momento, esse será o formulario:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+![screen](./public/Images/form_step_2.png)
 
-## Security Vulnerabilities
+* Após preencher corretamente, respeitando as validações, esse será o retorno do software:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+![screen](./public/Images/reserved.png)

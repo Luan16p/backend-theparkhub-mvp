@@ -22,7 +22,7 @@ class VagaController extends Controller
             ];
         });
 
-        return view('estacionamento_reservar', ["estacionamentos" => $estacionamentosFiltro]);
+        return view("estacionamento_reservar", ["estacionamentos" => $estacionamentosFiltro]);
     }
 
     public function create(Request $request) {
